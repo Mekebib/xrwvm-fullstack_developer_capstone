@@ -3,6 +3,7 @@ from django.views.generic import RedirectView
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.conf import settings
 from django.conf.urls.static import static
+from .restapis import get_request, analyze_review_sentiments, post_review
 from . import views
 
 

@@ -1,4 +1,5 @@
 # Uncomment the imports below before you add the function code
+
 import requests
 import os
 from dotenv import load_dotenv
@@ -36,14 +37,35 @@ def post_review(data_dict):
         print("Network exception occurred")
 # request_url = sentiment_analyzer_url+"analyze/"+text
 def analyze_review_sentiments(text):
-    request_url = sentiment_analyzer_url + "analyze/" + text
-    print("Analyzing sentiment for:", text)
+    request_url = sentiment_analyzer_url+"analyze/"+text
     try:
+        # Call get method of requests library with URL and parameters
         response = requests.get(request_url)
         return response.json()
-    except Exception as e:
-        print("Exception occurred while analyzing sentiment:", str(e))
-        return {'error': 'Failed to analyze sentiment'}
+    except Exception as err:
+        print(f"Unexpected {err=}, {type(err)=}")
+        print("Network exception occurred")
+
+def get_dealer_details(request, dealer_id):
+    if(dealer_id):
+        endpoint = "/fetchDealer/"+str(dealer_id)
+        dealership = get_request(endpoint)
+        return JsonResponse({"status":200,"dealer":dealership})
+    else:
+        return JsonResponse({"status":400,"message":"Bad Request"})
+
+def get_dealer_reviews(request, dealer_id):
+    # if dealer id has been provided
+    if(dealer_id):
+        endpoint = "/fetchReviews/dealer/"+str(dealer_id)
+        reviews = get_request(endpoint)
+        for review_detail in reviews:
+            response = analyze_review_sentiments(review_detail['review'])
+            print(response)
+            review_detail['sentiment'] = response['sentiment']
+        return JsonResponse({"status":200,"reviews":reviews})
+    else:
+        return JsonResponse({"status":400,"message":"Bad Request"})
 
 # Add code for retrieving sentiments
 

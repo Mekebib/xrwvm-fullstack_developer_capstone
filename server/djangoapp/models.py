@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.db import models
+
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 class CarMake(models.Model):
@@ -29,12 +30,3 @@ class CarModel(models.Model):
 
     def __str__(self):
         return self.name  # Return the name as the string representation
-
-@admin.register(CarMake)
-class CarMakeAdmin(admin.ModelAdmin):
-    pass
-
-@admin.register(CarModel)
-class CarModelAdmin(admin.ModelAdmin):
-    pass
-

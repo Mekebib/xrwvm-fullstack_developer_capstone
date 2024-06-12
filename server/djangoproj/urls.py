@@ -5,6 +5,8 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
+    
+    path('manifest.json', TemplateView.as_view(template_name='manifest.json', content_type='application/json'), name='manifest.json'),
     path('postreview/<int:dealer_id>',TemplateView.as_view(template_name="index.html")),
     path('dealer/<int:dealer_id>',TemplateView.as_view(template_name="index.html")),
     path('dealers/', TemplateView.as_view(template_name="index.html")),
